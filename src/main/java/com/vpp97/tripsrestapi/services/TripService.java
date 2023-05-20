@@ -8,6 +8,7 @@ import com.vpp97.tripsrestapi.dtos.db.Driver;
 import com.vpp97.tripsrestapi.dtos.db.MilestonePoint;
 import com.vpp97.tripsrestapi.dtos.db.Passenger;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
+import com.vpp97.tripsrestapi.exceptions.IdNotFoundException;
 import com.vpp97.tripsrestapi.repositories.TripRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class TripService {
     }
 
     public Trip findById(String id){
-        var trip = this.tripRepository.findById(id).orElseThrow(() -> new RuntimeException("Trip not found"));
+        var trip = this.tripRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id, "Trips"));
         return trip;
     }
 }
