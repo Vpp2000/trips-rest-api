@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BadRequestController {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class NotFoundControllerAdvice {
     @ExceptionHandler({IdNotFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleIfIdNotFound(IdNotFoundException exception){
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message("Id not found")
