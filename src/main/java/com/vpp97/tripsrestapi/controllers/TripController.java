@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,6 +32,20 @@ public class TripController {
                 .message("Trips were obtained successfully")
                 .data(tripsPaged)
                 .build();
+        return ResponseEntity.ok(genericControllerResponse);
+    }
+
+    @GetMapping("{tripId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Retrieve Trip by its id")
+    public ResponseEntity<SuccessfulControllerResponse<Trip>> findByTripId(@PathVariable("tripId") String tripId) {
+        Trip trip = this.tripService.findById(tripId);
+        String message = String.format("Trip with id %s was obtained successfully", tripId);
+        SuccessfulControllerResponse genericControllerResponse = SuccessfulControllerResponse.<Trip>builder()
+                .message(message)
+                .data(trip)
+                .build();
+
         return ResponseEntity.ok(genericControllerResponse);
     }
 }

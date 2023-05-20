@@ -34,4 +34,9 @@ public class TripService {
                 .build();
 
     }
+
+    public Trip findById(String id){
+        var trip = this.tripRepository.findById(id).orElseThrow(() -> new RuntimeException("Trip not found"));
+        return trip;
+    }
 }
