@@ -8,6 +8,7 @@ import com.vpp97.tripsrestapi.dtos.db.Driver;
 import com.vpp97.tripsrestapi.dtos.db.MilestonePoint;
 import com.vpp97.tripsrestapi.dtos.db.Passenger;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
+import com.vpp97.tripsrestapi.dtos.responses.StatisticsResponse;
 import com.vpp97.tripsrestapi.exceptions.IdNotFoundException;
 import com.vpp97.tripsrestapi.repositories.TripRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +36,19 @@ public class TripService {
                 .build();
 
     }
-
     public Trip findById(String id){
         var trip = this.tripRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id, "Trips"));
         return trip;
+    }
+    public StatisticsResponse getStatisticsResponse(String city, String country){
+        final long totalTrips = this.tripRepository.count();
+        final long tripsByCity = this.tripRepository.countByCity_Name(city);
+        final long tripsByCountry = this.tripRepository.countByCountry_Name(country);
+
+        return StatisticsResponse.builder()
+                .totalTrips(totalTrips)
+                .tripsByCity(tripsByCity)
+                .tripsByCountry(tripsByCountry)
+                .build();
     }
 }
