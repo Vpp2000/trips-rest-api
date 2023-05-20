@@ -113,7 +113,58 @@ public class TripService {
         return trip;
     }
 
+    public Trip updateTripById(String tripId, TripRequest tripRequest){
+        Trip persistedTrip = this.findById(tripId);
 
+        GeoJsonPoint startLocation = getGeoJsonPointFromLocationDto(tripRequest.getStart().getPickupLocation());
+        MilestonePoint start = MilestonePoint.builder()
+                .date(LocalDateTime.now())
+                .pickupAddress(tripRequest.getStart().getPickupAddress())
+                .pickupLocation(startLocation)
+                .build();
 
+        GeoJsonPoint endLocation = getGeoJsonPointFromLocationDto(tripRequest.getEnd().getPickupLocation());
+        MilestonePoint end = MilestonePoint.builder()
+                .date(null)
+                .pickupAddress(tripRequest.getEnd().getPickupAddress())
+                .pickupLocation(endLocation)
+                .build();
+
+        GeoJsonPoint driverLocation = getGeoJsonPointFromLocationDto(tripRequest.getDriverLocation());
+
+        Country country = Country.builder()
+                .name(tripRequest.getCountry().getName())
+                .build();
+        City city = City.builder()
+                .name(tripRequest.getCity().getName())
+                .build();
+        Passenger passenger = Passenger.builder()
+                .firstName(tripRequest.getPassenger().getFirstName())
+                .lastName(tripRequest.getPassenger().getLastName())
+                .build();
+        Driver driver = Driver.builder()
+                .firstName(tripRequest.getDriver().getFirstName())
+                .lastName(tripRequest.getDriver().getLastName())
+                .build();
+        Car car = Car.builder()
+                .plate(tripRequest.getCar().getPlate())
+                .build();
+
+        persistedTrip.setStart(start);
+        persistedTrip.setEnd(end);
+        persistedTrip.setCountry(country);
+        persistedTrip.setCity(city);
+        persistedTrip.setPassenger(passenger);
+        persistedTrip.setDriver(driver);
+        persistedTrip.setCar(car);
+        persistedTrip.setStatus(tripRequest.getStatus());
+        persistedTrip.setPrice(tripRequest.getPrice());
+        persistedTrip.setUpdatedAt(LocalDateTime.now());
+        persistedTrip.setDriverLocation(driverLocation);
+
+        persistedTrip = this.tripRepository.save(persistedTrip);
+
+        return persistedTrip;
+    }
 
 }
