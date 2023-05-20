@@ -3,6 +3,7 @@ package com.vpp97.tripsrestapi.controllers;
 import com.vpp97.tripsrestapi.documents.Trip;
 import com.vpp97.tripsrestapi.dtos.responses.ErrorResponse;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
+import com.vpp97.tripsrestapi.dtos.responses.StatisticsResponse;
 import com.vpp97.tripsrestapi.dtos.responses.SuccessfulControllerResponse;
 import com.vpp97.tripsrestapi.services.TripService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,6 +56,22 @@ public class TripController {
         SuccessfulControllerResponse genericControllerResponse = SuccessfulControllerResponse.<Trip>builder()
                 .message(message)
                 .data(trip)
+                .build();
+
+        return ResponseEntity.ok(genericControllerResponse);
+    }
+
+
+    @GetMapping(value = "statistics", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Retrieve basic statistics about Trips")
+    public ResponseEntity<SuccessfulControllerResponse<StatisticsResponse>> getStatistics(@RequestParam(value = "city") String city, @RequestParam("country") String country) {
+        StatisticsResponse statisticsResponse = this.tripService.getStatisticsResponse(city, country);
+        String message = "Statistics about trips were obtained successfully";
+
+        SuccessfulControllerResponse genericControllerResponse = SuccessfulControllerResponse.<StatisticsResponse>builder()
+                .message(message)
+                .data(statisticsResponse)
                 .build();
 
         return ResponseEntity.ok(genericControllerResponse);
