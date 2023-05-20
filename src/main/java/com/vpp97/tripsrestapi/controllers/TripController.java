@@ -1,6 +1,7 @@
 package com.vpp97.tripsrestapi.controllers;
 
 import com.vpp97.tripsrestapi.documents.Trip;
+import com.vpp97.tripsrestapi.dtos.requests.TripRequest;
 import com.vpp97.tripsrestapi.dtos.responses.ErrorResponse;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
 import com.vpp97.tripsrestapi.dtos.responses.StatisticsResponse;
@@ -12,12 +13,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,5 +79,19 @@ public class TripController {
                 .build();
 
         return ResponseEntity.ok(genericControllerResponse);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create a Trip from our TripRequest")
+    public ResponseEntity<SuccessfulControllerResponse<Trip>> create(@RequestBody @Valid TripRequest tripRequest){
+        Trip trip = this.tripService.createTripFromTripRequest(tripRequest);
+        String message = "Trip was created successfully";
+        SuccessfulControllerResponse genericControllerResponse = SuccessfulControllerResponse.<Trip>builder()
+                .message(message)
+                .data(trip)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(genericControllerResponse);
     }
 }

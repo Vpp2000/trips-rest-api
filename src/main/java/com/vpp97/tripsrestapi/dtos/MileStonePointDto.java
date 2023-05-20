@@ -2,6 +2,7 @@ package com.vpp97.tripsrestapi.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MileStonePointDto {
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Name may not be empty")
     private String pickupAddress;
     @NotNull
     private LocationDto pickupLocation;
