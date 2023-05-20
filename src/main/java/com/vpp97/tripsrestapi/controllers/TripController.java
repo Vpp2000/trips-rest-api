@@ -4,6 +4,8 @@ import com.vpp97.tripsrestapi.documents.Trip;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
 import com.vpp97.tripsrestapi.dtos.responses.SuccessfulControllerResponse;
 import com.vpp97.tripsrestapi.services.TripService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Trip")
 @RestController
 @RequestMapping("trip")
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class TripController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Retrieve paginated trips")
     public ResponseEntity<SuccessfulControllerResponse<PagedResponse<Trip>>> getAll(@RequestParam(value = "size", defaultValue = "5") int size, @RequestParam(value = "page", defaultValue = "0") int page) {
         PagedResponse<Trip> tripsPaged = this.tripService.findAll(page, size);
         SuccessfulControllerResponse genericControllerResponse = SuccessfulControllerResponse.<PagedResponse>builder()
@@ -29,5 +33,4 @@ public class TripController {
                 .build();
         return ResponseEntity.ok(genericControllerResponse);
     }
-
 }
