@@ -178,7 +178,7 @@ public class TripService {
         boolean bothAreMeaningful = !(isNull(fieldName) || isNull(value));
 
         if(bothAreNull){
-            count = CounterService.count(() -> this.tripRepository.count());
+            count = CounterService.count(this.tripRepository::count);
         } else if(bothAreMeaningful){
             switch (fieldName) {
                 case CITY -> count = CounterService.count(() -> this.tripRepository.countByCity_Name(value));

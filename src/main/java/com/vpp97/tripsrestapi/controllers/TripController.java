@@ -1,6 +1,7 @@
 package com.vpp97.tripsrestapi.controllers;
 
 import com.vpp97.tripsrestapi.documents.Trip;
+import com.vpp97.tripsrestapi.dtos.FieldNames;
 import com.vpp97.tripsrestapi.dtos.requests.TripRequest;
 import com.vpp97.tripsrestapi.dtos.responses.ErrorResponse;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
@@ -28,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.Map;
 
 @Tag(name = "Trip")
 @RestController
@@ -108,5 +112,24 @@ public class TripController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.OK).body(genericControllerResponse);
+    }
+
+    @GetMapping(value =  "count", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Count trips depending on request params")
+    public ResponseEntity<SuccessfulControllerResponse<Map<String, Long>>> count(
+            @RequestParam(name = "field", required = false) FieldNames fieldName,
+            @RequestParam(name = "value", required = false) String value
+    ){
+        long count = this.tripService.count(fieldName, value);
+        String message = "Trip was updated successfully";
+        Map<String, Long> data = Collections.singletonMap("count", count);
+        SuccessfulControllerResponse genericControllerResponse = SuccessfulControllerResponse.<Map<String, Long>>builder()
+                .message(message)
+                .data(data)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(genericControllerResponse);
+
     }
 }
