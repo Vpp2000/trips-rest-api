@@ -1,7 +1,9 @@
 package com.vpp97.tripsrestapi.controllers.error_handlers;
 
 
+import com.vpp97.tripsrestapi.dtos.responses.ErrorResponse;
 import com.vpp97.tripsrestapi.dtos.responses.FieldErrorsResponse;
+import com.vpp97.tripsrestapi.exceptions.RequestParamsInvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,16 +17,16 @@ import java.util.Map;
 
 @RestControllerAdvice
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class PayloadValidationControllerAdvice {
+public class BadRequestControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<FieldErrorsResponse> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException exception) {
 
         String message = "Some fields of your payload are invalid";
         Map<String, String> fieldErrors = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        exception.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             fieldErrors.put(fieldName, errorMessage);
@@ -36,5 +38,17 @@ public class PayloadValidationControllerAdvice {
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorsResponse);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RequestParamsInvalidException.class)
+    public ResponseEntity<ErrorResponse> handleRequestParamsException(RequestParamsInvalidException exception){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message("Request params error")
+                .detail(exception.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
     }
 }
