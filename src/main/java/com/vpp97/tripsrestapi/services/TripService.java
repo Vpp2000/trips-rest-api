@@ -1,6 +1,7 @@
 package com.vpp97.tripsrestapi.services;
 
 import com.vpp97.tripsrestapi.documents.Trip;
+import com.vpp97.tripsrestapi.dtos.FieldNames;
 import com.vpp97.tripsrestapi.dtos.LocationDto;
 import com.vpp97.tripsrestapi.dtos.db.Car;
 import com.vpp97.tripsrestapi.dtos.db.City;
@@ -12,7 +13,9 @@ import com.vpp97.tripsrestapi.dtos.requests.TripRequest;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
 import com.vpp97.tripsrestapi.dtos.responses.StatisticsResponse;
 import com.vpp97.tripsrestapi.exceptions.IdNotFoundException;
+import com.vpp97.tripsrestapi.exceptions.RequestParamsInvalidException;
 import com.vpp97.tripsrestapi.repositories.TripRepository;
+import com.vpp97.tripsrestapi.services.strategies.CounterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 import static com.vpp97.tripsrestapi.utils.GeoJsonUtils.getGeoJsonPointFromLocationDto;
+import static java.util.Objects.isNull;
 
 @Service
 @Slf4j
@@ -167,4 +171,24 @@ public class TripService {
         return persistedTrip;
     }
 
+    public long count(FieldNames fieldName, String value){
+        long count;
+
+        boolean bothAreNull = isNull(fieldName) && isNull(value);
+        boolean bothAreMeaningful = !(isNull(fieldName) || isNull(value));
+
+        if(bothAreNull){
+            count = CounterService.count(() -> this.tripRepository.count());
+        } else if(bothAreMeaningful){
+            switch (fieldName) {
+                case CITY -> count = CounterService.count(() -> this.tripRepository.countByCity_Name(value));
+                case COUNTRY -> count = CounterService.count(() -> this.tripRepository.countByCountry_Name(value));
+                default -> throw new RequestParamsInvalidException("Invalid field name");
+            }
+        } else {
+            throw new RequestParamsInvalidException("If one field is not null then both can't be null");
+        }
+
+        return count;
+    }
 }
