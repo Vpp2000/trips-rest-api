@@ -64,7 +64,7 @@ public class TripService {
 
         GeoJsonPoint startLocation = getGeoJsonPointFromLocationDto(tripRequest.getStart().getPickupLocation());
         MilestonePoint start = MilestonePoint.builder()
-                .date(LocalDateTime.now())
+                .date(tripRequest.getStart().getDate())
                 .pickupAddress(tripRequest.getStart().getPickupAddress())
                 .pickupLocation(startLocation)
                 .build();
@@ -122,7 +122,7 @@ public class TripService {
 
         GeoJsonPoint startLocation = getGeoJsonPointFromLocationDto(tripRequest.getStart().getPickupLocation());
         MilestonePoint start = MilestonePoint.builder()
-                .date(LocalDateTime.now())
+                .date(tripRequest.getStart().getDate())
                 .pickupAddress(tripRequest.getStart().getPickupAddress())
                 .pickupLocation(startLocation)
                 .build();
