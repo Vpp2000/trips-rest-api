@@ -7,3 +7,7 @@ spring:
       preferred-json-mapper: gson
 server:
   port: 9999
+
+logging:
+  level:
+    org.mongodb: warn
