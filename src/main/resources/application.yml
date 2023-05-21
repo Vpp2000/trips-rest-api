@@ -1,9 +1,7 @@
 spring:
   data:
     mongodb:
-      host: localhost
-      database: travel_api
-      port: 27017
+      uri: mongodb+srv://vipopi1997:JiJqgunzxS8n9QDm@vppcluster.bhaevgv.mongodb.net/trips-db?retryWrites=true&w=majority
   mvc:
     converters:
       preferred-json-mapper: gson
