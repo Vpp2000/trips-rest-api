@@ -1,8 +1,7 @@
-package com.vpp97.tripsrestapi.services;
+package com.vpp97.tripsrestapi.api.services;
 
 import com.vpp97.tripsrestapi.documents.Trip;
 import com.vpp97.tripsrestapi.dtos.FieldNames;
-import com.vpp97.tripsrestapi.dtos.LocationDto;
 import com.vpp97.tripsrestapi.dtos.db.Car;
 import com.vpp97.tripsrestapi.dtos.db.City;
 import com.vpp97.tripsrestapi.dtos.db.Country;
@@ -14,8 +13,8 @@ import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
 import com.vpp97.tripsrestapi.dtos.responses.StatisticsResponse;
 import com.vpp97.tripsrestapi.exceptions.IdNotFoundException;
 import com.vpp97.tripsrestapi.exceptions.RequestParamsInvalidException;
-import com.vpp97.tripsrestapi.repositories.TripRepository;
-import com.vpp97.tripsrestapi.services.strategies.CounterService;
+import com.vpp97.tripsrestapi.api.repositories.TripRepository;
+import com.vpp97.tripsrestapi.api.services.strategies.CounterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;

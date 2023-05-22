@@ -1,4 +1,4 @@
-package com.vpp97.tripsrestapi.repositories;
+package com.vpp97.tripsrestapi.api.repositories;
 
 import com.vpp97.tripsrestapi.documents.Trip;
 import org.springframework.data.mongodb.repository.MongoRepository;

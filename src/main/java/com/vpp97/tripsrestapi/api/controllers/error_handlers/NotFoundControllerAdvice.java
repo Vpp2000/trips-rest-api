@@ -1,4 +1,4 @@
-package com.vpp97.tripsrestapi.controllers.error_handlers;
+package com.vpp97.tripsrestapi.api.controllers.error_handlers;
 
 import com.vpp97.tripsrestapi.dtos.responses.ErrorResponse;
 import com.vpp97.tripsrestapi.exceptions.IdNotFoundException;

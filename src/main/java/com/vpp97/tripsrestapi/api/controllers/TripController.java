@@ -1,5 +1,6 @@
-package com.vpp97.tripsrestapi.controllers;
+package com.vpp97.tripsrestapi.api.controllers;
 
+import com.vpp97.tripsrestapi.api.services.TripService;
 import com.vpp97.tripsrestapi.documents.Trip;
 import com.vpp97.tripsrestapi.dtos.FieldNames;
 import com.vpp97.tripsrestapi.dtos.requests.TripRequest;
@@ -7,7 +8,6 @@ import com.vpp97.tripsrestapi.dtos.responses.ErrorResponse;
 import com.vpp97.tripsrestapi.dtos.responses.PagedResponse;
 import com.vpp97.tripsrestapi.dtos.responses.StatisticsResponse;
 import com.vpp97.tripsrestapi.dtos.responses.SuccessfulControllerResponse;
-import com.vpp97.tripsrestapi.services.TripService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
