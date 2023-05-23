@@ -1,5 +1,16 @@
 # DOCUMENTACIÓN GENERAL DEL PROYECTO
-
+## RUTAS DE LA API
+- **/swagger-ui.html**: interfaz de la documentación de la API
+- **/trip**:
+  - Mediante una llamada GET lista de viajes paginados (puse 22 documentos en MongoDb Atlas). Los parámetros adicionales se pueden ver en la documentación swagger
+  - Mediante POST Permite la creación de un nuevo viaje
+- **/trip/{tripId}**:
+  - Mediante llamada GET permite obtener uno de los viajes en MongoDb Atlas en base a su id
+  - Mediante llamada PUT permite actualizar un viaje en base a su id.
+-  **/trip/count**: 
+   - Permite contar todos los documentos o cuenta en base a un país o una ciudad dependendo de los parámetros que se le pasen.
+- **/trip/statistics**:
+    - Permite obtener el total de paises y los paises por una ciudad determinada y por un pais determinado todos a la vez (usualmente estas estadísticas suelen pedirse todas al mismo tiempo, por eso hice este endpoint)
 ## ESTRUCTURA DE CARPETAS
 La estructura de carpetas puede apreciarse en la siguiente imagen:
 <br>
